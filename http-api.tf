@@ -12,7 +12,7 @@ resource "aws_apigatewayv2_integration" "lambda_integration" {
 }
 
 locals {
-    api_methods = [
+  api_methods = [
     "GET /health",
     "GET /cars",
     "GET /car",
@@ -24,21 +24,21 @@ locals {
 }
 
 resource "aws_apigatewayv2_route" "api_routes" {
-  for_each  = toset(local.api_methods)
+  for_each = toset(local.api_methods)
 
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = each.value
   target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
 }
 
-# Enable CORS if required
-resource "aws_apigatewayv2_cors_configuration" "cors" {
-  api_id = aws_apigatewayv2_api.http_api.id
+# # Enable CORS if required
+# resource "aws_apigatewayv2_cors_configuration" "cors" {
+#   api_id = aws_apigatewayv2_api.http_api.id
 
-  allow_headers = ["Content-Type"]
-  allow_methods = ["GET", "POST", "PATCH", "DELETE"]
-  allow_origins = ["*"]
-}
+#   allow_headers = ["Content-Type"]
+#   allow_methods = ["GET", "POST", "PATCH", "DELETE"]
+#   allow_origins = ["*"]
+# }
 
 # Define the 'dev' stage
 resource "aws_apigatewayv2_stage" "dev" {
