@@ -28,7 +28,7 @@ resource "aws_apigatewayv2_route" "api_routes" {
 
   api_id    = aws_apigatewayv2_api.http_api.id
   route_key = each.value
-  target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
+  target    = local.api_route_target
 }
 
 # # Enable CORS if required
